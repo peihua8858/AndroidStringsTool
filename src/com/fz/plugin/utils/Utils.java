@@ -8,6 +8,7 @@ import com.intellij.openapi.ui.Messages;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Utils {
 
@@ -69,5 +70,33 @@ public class Utils {
         progressWindow.setTitle(title);
         progressWindow.setDelayInMillis(500);
         return progressWindow;
+    }
+
+    /**
+     * @param jFrame
+     * @param width  宽度比例
+     * @param height 高度
+     */
+    public static void sizeWindowOnScreen(JFrame jFrame, float width, float height) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        float widthRate = (width / screenSize.width);
+        float heightRate = (height / screenSize.height);
+        sizeWindowOnScreen(jFrame, screenSize, widthRate, heightRate);
+    }
+
+    /**
+     * @param jFrame
+     * @param widthRate  宽度比例
+     * @param heightRate 高度比例
+     */
+    public static void sizeWindowOnScreen(JFrame jFrame, Dimension screenSize, double widthRate, double heightRate) {
+        Dimension frameSize = new Dimension((int) (screenSize.width * widthRate), (int) (screenSize.height * heightRate));
+        int w = (int) ((screenSize.width - frameSize.width) / 2f);
+        int h = (int) ((screenSize.height - frameSize.height) / 2f);
+        jFrame.setLocation(w, h);
+        jFrame.setSize(frameSize);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame.setResizable(false);
+        jFrame.setLocationRelativeTo(null);
     }
 }

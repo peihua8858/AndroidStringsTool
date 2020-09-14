@@ -156,12 +156,6 @@ public class ToolsFrame extends JFrame {
                 dispose();
             }
         });
-        int w = (Toolkit.getDefaultToolkit().getScreenSize().width - 500) / 2;
-        int h = (Toolkit.getDefaultToolkit().getScreenSize().height - 260) / 2;
-        setSize(500, 260);
-        setResizable(false);
-        setMinimumSize(new Dimension(500, 260));
-        setLocation(w, h);
         btnExportSaveFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -208,6 +202,8 @@ public class ToolsFrame extends JFrame {
         cbExcelFilePath.addItemListener(this::setSelectExcelFilePath);
         cbMainFolder.addItemListener(this::setSelectModuleFilePath);
         cbExportModuleFolder.addItemListener(this::setSelectExcelModuleFilePath);
+        Utils.sizeWindowOnScreen(this, 500, 260);
+        pack();
     }
 
     private void setSelectExcelFilePath(ItemEvent event) {

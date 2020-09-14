@@ -89,7 +89,6 @@ public class LanguageFrame extends JFrame {
                 onCancel();
             }
         });
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
@@ -100,12 +99,8 @@ public class LanguageFrame extends JFrame {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        int w = (Toolkit.getDefaultToolkit().getScreenSize().width - 700) / 2;
-        int h = (Toolkit.getDefaultToolkit().getScreenSize().height - 360) / 2;
-        setSize(700, 360);
-        setResizable(false);
-        setMinimumSize(new Dimension(700, 360));
-        setLocation(w, h);
+        Utils.sizeWindowOnScreen(this, 700, 360);
+        setResizable(true);
     }
 
     /**
