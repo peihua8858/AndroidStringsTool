@@ -101,6 +101,7 @@ public class LanguageFrame extends JFrame {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         Utils.sizeWindowOnScreen(this, 700, 360);
         setResizable(true);
+        pack();
     }
 
     /**

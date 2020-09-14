@@ -202,7 +202,7 @@ public class ToolsFrame extends JFrame {
         cbExcelFilePath.addItemListener(this::setSelectExcelFilePath);
         cbMainFolder.addItemListener(this::setSelectModuleFilePath);
         cbExportModuleFolder.addItemListener(this::setSelectExcelModuleFilePath);
-        Utils.sizeWindowOnScreen(this, 500, 260);
+        Utils.sizeWindowOnScreen(this, 550, 260);
         pack();
     }
 

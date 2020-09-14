@@ -79,24 +79,14 @@ public class Utils {
      */
     public static void sizeWindowOnScreen(JFrame jFrame, float width, float height) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        float widthRate = (width / screenSize.width);
-        float heightRate = (height / screenSize.height);
-        sizeWindowOnScreen(jFrame, screenSize, widthRate, heightRate);
-    }
-
-    /**
-     * @param jFrame
-     * @param widthRate  宽度比例
-     * @param heightRate 高度比例
-     */
-    public static void sizeWindowOnScreen(JFrame jFrame, Dimension screenSize, double widthRate, double heightRate) {
-        Dimension frameSize = new Dimension((int) (screenSize.width * widthRate), (int) (screenSize.height * heightRate));
+        Dimension frameSize = new Dimension(Math.round(width), Math.round(height));
         int w = (int) ((screenSize.width - frameSize.width) / 2f);
         int h = (int) ((screenSize.height - frameSize.height) / 2f);
-        jFrame.setLocation(w, h);
-        jFrame.setSize(frameSize);
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
+        jFrame.setMinimumSize(frameSize);
+        jFrame.setLocation(w, h);
+        jFrame.setSize(frameSize);
     }
 }
