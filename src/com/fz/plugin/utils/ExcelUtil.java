@@ -18,13 +18,13 @@ import java.util.regex.Pattern;
 
 public class ExcelUtil {
     /**
-     * (((?<=（)|(?<=\())[a-z-?A-Z]+((?=）)|(?=\))))匹配()或（）括号之间到字符，或者([a-z-?A-Z]+)匹配全英文字符
+     * 只匹配(((?<=（)|(?<=\())[a-z-?A-Z]+((?=）)|(?=\))))匹配()或（）括号之间的字符，
      */
-    private static final String LANGUAGE_CODE_REG = "(((?<=（)|(?<=\\())[a-z-?A-Z]+((?=）)|(?=\\))))|([a-z-?A-Z]+)";
+    private static final String LANGUAGE_CODE_REG = "(((?<=（)|(?<=\\())[a-z-?A-Z]+((?=）)|(?=\\))))";
     public static final Pattern LANGUAGE = Pattern.compile(LANGUAGE_CODE_REG);
 
     /**
-     * 匹配语言简码
+     * 匹配小括号之间的字符，如果匹配到，则返回小括号直接的字符作为语言简码，否则返回整个字符串
      *
      * @param content 文本内容
      * @return
