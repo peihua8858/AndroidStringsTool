@@ -51,10 +51,7 @@ public class XmlUtil {
 
     private static boolean checkFileName(String fileName, String lang) {
         final String valueName = createValuesFile(lang);
-        return valueName.equalsIgnoreCase(fileName)
-                || (("en".equalsIgnoreCase(lang)
-                || "default".equalsIgnoreCase(lang))
-                && "values".equalsIgnoreCase(fileName));
+        return valueName.equalsIgnoreCase(fileName) || (("en".equalsIgnoreCase(lang) || "default".equalsIgnoreCase(lang)) && "values".equalsIgnoreCase(fileName));
     }
 
     private static String createValuesFile(String lang) {
@@ -224,7 +221,7 @@ public class XmlUtil {
             org.w3c.dom.Document document;
             org.w3c.dom.Element resourceElementRoot;
             //判断文件存在，并且不是空文件
-            if (remoteFile.exists() && remoteFile.length() > 0) {
+            if (remoteFile != null && remoteFile.exists() && remoteFile.length() > 0) {
                 InputStream inputStream = new FileInputStream(remoteFile);
                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                 InputSource is = new InputSource(reader);
@@ -263,7 +260,7 @@ public class XmlUtil {
                             if (key.equalsIgnoreCase(attr.getValue())) {
                                 isAdd = false;
                                 String value = datum.getValue();
-                                if (checkValue(value)) {
+                                if (checkSpecialCharacters(value)) {
                                     if (eElement.hasChildNodes()) {
                                         removeAllChild(eElement);
                                     } else {
@@ -290,7 +287,7 @@ public class XmlUtil {
                     attr.setValue(datum.getKey());
                     entry.setAttributeNode(attr);
                     String value = datum.getValue();
-                    if (checkValue(value)) {
+                    if (checkSpecialCharacters(value)) {
                         entry.appendChild(document.createCDATASection(value));
                     } else {
                         entry.setTextContent(value);
@@ -302,7 +299,7 @@ public class XmlUtil {
                 Comment endComment = document.createComment(MessageFormat.format("{0} >> end", formatDate()));
                 resourceElementRoot.appendChild(endComment);
             }
-            if (writer == null) {
+            if (writer == null && remoteFile != null) {
                 writer = new OutputStreamWriter(new FileOutputStream(remoteFile), StandardCharsets.UTF_8);
             }
             transformer(document, isFormat, writer);
@@ -319,8 +316,8 @@ public class XmlUtil {
      * @date 2020/6/8 18:19
      * @version 1.0
      */
-    private static boolean checkValue(String value) {
-        return value.contains("<font");
+    private static boolean checkSpecialCharacters(String value) {
+        return value.contains("<") || value.contains(">");
     }
 
     private static void removeAllChild(Element e) {
@@ -349,7 +346,6 @@ public class XmlUtil {
                 domConfig.setParameter("cdata-sections", Boolean.TRUE);
                 //And finaly, write
                 domWriter.write(document, domOutput);
-                writer.close();
             } else {
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
@@ -358,8 +354,8 @@ public class XmlUtil {
                 DOMSource source = new DOMSource(document);
                 StreamResult consoleResult = new StreamResult(writer);
                 transformer.transform(source, consoleResult);
-                writer.close();
             }
+            writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

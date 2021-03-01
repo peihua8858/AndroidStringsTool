@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.fz.strings.plugin.id</id>
     <name>AndroidStringsTool</name>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <vendor email="peihua8858@gmail.com" url="https://github.com/peihua8858">dingpeihua</vendor>
 
     <description><![CDATA[
@@ -10,6 +10,10 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.java</depends>
     <change-notes><![CDATA[
+        <i>1.0.8变更</i>
+        <ul>
+            <li>修复“<”或“>”标签时，统一转换成CDATA"。</li>
+        </ul>
         <i>1.0.7变更</i>
         <ul>
             <li>修复正则表达式无法匹配错误的问题。</li>
