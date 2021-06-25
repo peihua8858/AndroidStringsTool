@@ -137,13 +137,14 @@ public class XmlUtil {
                 final File parentFile = remoteFile.getParentFile();
                 final String parentFileName = parentFile.getName();
                 if (checkFileName(parentFileName, lang)) {
-                    final MutableTreeNode childNode = new MutableTreeNode(parentFileName);
+//                    final MutableTreeNode childNode = new MutableTreeNode(parentFileName);
                     TreeModelBean model = new TreeModelBean();
                     model.setFile(remoteFile);
                     model.setFileName(remoteFile.getName());
                     model.setLang(lang);
-                    childNode.add(new MutableTreeNode(model));
-                    treeNodes.add(childNode);
+//                    childNode.add(new MutableTreeNode(model));
+                    treeNodes.add(addChildNode(parentFileName, model));
+//                    treeNodes.add(childNode);
                     //写入文件之后删除数据
                     iterator.remove();
                     break;
@@ -172,13 +173,13 @@ public class XmlUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            final MutableTreeNode childNode = new MutableTreeNode(valueName);
+//            final MutableTreeNode childNode = new MutableTreeNode(valueName);
             TreeModelBean model = new TreeModelBean();
             model.setFile(remoteFile);
             model.setFileName(remoteFile.getName());
             model.setLang(lang);
-            childNode.add(new MutableTreeNode(model));
-            treeNodes.add(childNode);
+//            childNode.add(new MutableTreeNode(model));
+            treeNodes.add(addChildNode(valueName, model));
         }
         treeNodes.sort(MutableTreeNode::compareTo);
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("res");
@@ -188,13 +189,18 @@ public class XmlUtil {
         return root;
     }
 
+    private static MutableTreeNode addChildNode(String valueName, Object model) {
+        final MutableTreeNode childNode = new MutableTreeNode(valueName);
+        childNode.add(new MutableTreeNode(model));
+        return childNode;
+    }
+
     public static <T extends Serializable> T deepClone(T o) {
-        try {
-            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        try(ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(byteOut);
+            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteOut.toByteArray()))) {
             out.writeObject(o);
             out.flush();
-            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteOut.toByteArray()));
             return (T) o.getClass().cast(in.readObject());
         } catch (Exception e) {
             e.printStackTrace();
