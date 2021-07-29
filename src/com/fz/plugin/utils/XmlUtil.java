@@ -196,15 +196,15 @@ public class XmlUtil {
     }
 
     public static <T extends Serializable> T deepClone(T o) {
-        try(ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(byteOut);
-            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteOut.toByteArray()))) {
-            out.writeObject(o);
-            out.flush();
-            return (T) o.getClass().cast(in.readObject());
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(o);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (T) ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
-            return o;
+            return null;
         }
     }
 
