@@ -4,7 +4,8 @@ import com.fz.plugin.configs.Configs;
 import com.fz.plugin.ui.ToolsFrame;
 import com.fz.plugin.utils.FileUtils;
 import com.fz.plugin.utils.Utils;
-import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.codeInsight.CodeInsightActionHandler;
+import com.intellij.codeInsight.generation.actions.BaseGenerateAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
@@ -21,7 +22,15 @@ import java.util.List;
  * @version 1.0
  * @date 2019/7/17 09:27
  */
-public class MainAction extends AnAction {
+public class MainAction extends BaseGenerateAction {
+
+    public MainAction() {
+        super(null);
+    }
+
+    protected MainAction(CodeInsightActionHandler handler) {
+        super(handler);
+    }
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
